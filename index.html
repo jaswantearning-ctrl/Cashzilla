@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>CashZilla</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>CashZilla</h1>
+      <nav id="nav" style="display:none;">
+        <button data-tab="home">Home</button>
+        <button data-tab="refer">Refer</button>
+        <button data-tab="watch">Watch</button>
+        <button data-tab="withdraw">Withdraw</button>
+        <button data-tab="deposit" id="depositTab" style="display:none;">Deposit</button>
+        <button id="logoutBtn">Logout</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="auth">
+        <h2>Login / Signup</h2>
+        <input id="email" placeholder="Email" /><br/>
+        <input id="password" placeholder="Password" type="password" /><br/>
+        <button id="loginBtn">Login</button>
+        <button id="signupBtn">Signup</button>
+        <p id="authMsg"></p>
+      </section>
+
+      <section id="home" class="tab" style="display:none;">
+        <h2>Home</h2>
+        <div id="balance">Balance: ₹0</div>
+        <div id="level">Level: 1</div>
+        <div id="tasks">
+          <h3>Tasks</h3>
+          <button id="dailyLoginBtn">Claim Daily Login (₹20)</button><br/>
+          <button id="watchBtn">Watch & Earn</button>
+          <p id="watchStatus"></p>
+          <button id="claimWatchBtn" style="display:none;">Claim Watch</button>
+        </div>
+      </section>
+
+      <section id="refer" class="tab" style="display:none;">
+        <h2>Refer</h2>
+        <div>Your referral code: <span id="refCode"></span></div>
+        <div>Your referral link: <input id="refLink" readonly /></div>
+        <div>Referrals: <span id="refCount">0</span></div>
+      </section>
+
+      <section id="watch" class="tab" style="display:none;">
+        <h2>Watch & Earn</h2>
+        <p>Click to open a random video in YouTube. Minimum 2.5 minutes to earn. ₹1 per 10 sec watched.</p>
+        <button id="openVideoBtn">Open Random Video</button>
+        <p id="openStatus"></p>
+        <button id="checkWatchBtn" style="display:none;">Claim Watch (after watching)</button>
+      </section>
+
+      <section id="withdraw" class="tab" style="display:none;">
+        <h2>Withdraw</h2>
+        <form id="withdrawForm">
+          <input id="bankName" placeholder="Account Holder Name" required /><br/>
+          <input id="accNo" placeholder="Account Number" required /><br/>
+          <input id="ifsc" placeholder="IFSC / UPI ID" required /><br/>
+          <input id="withdrawAmount" placeholder="Amount (₹)" required type="number" /><br/>
+          <button type="submit">Request Withdraw</button>
+        </form>
+        <div id="withdrawMsg"></div>
+        <h3>Your Requests</h3>
+        <ul id="withdrawList"></ul>
+      </section>
+
+      <section id="deposit" class="tab" style="display:none;">
+        <h2>Deposit (Visible to Level 4)</h2>
+        <p>To unlock withdrawals you must deposit ₹500 (hidden/unlock requirement as defined).</p>
+        <button id="depositBtn">Deposit ₹500 (simulate)</button>
+        <div id="depositMsg"></div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

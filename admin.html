@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"/><title>CashZilla Admin</title><link rel="stylesheet" href="style.css"></head>
+<body>
+  <h1>Admin - Pending Withdrawals</h1>
+  <div id="adminStatus"></div>
+  <ul id="adminList"></ul>
+  <script type="module">
+    import { firebaseConfig } from './firebase-config.js';
+    // Admin page expects Firebase config. If missing, shows message.
+    if(!firebaseConfig) {
+      document.getElementById('adminStatus').innerText = 'Firebase not configured. Please paste your config into firebase-config.js';
+    } else {
+      import('https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js').then(()=> {
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const list = document.getElementById('adminList');
+        db.collection('withdrawals').where('status','==','pending').onSnapshot(snap => {
+          list.innerHTML = '';
+          snap.forEach(doc => {
+            const d = doc.data();
+            const li = document.createElement('li');
+            li.innerHTML = `<b>${d.email}</b> - ₹${d.amount} - ${d.accName} - ${d.ifsc}
+              <button data-id="${doc.id}" class="approve">Approve</button>
+              <button data-id="${doc.id}" class="reject">Reject</button>`;
+            list.appendChild(li);
+          });
+        });
+        document.addEventListener('click', e => {
+          if(e.target.classList.contains('approve')) {
+            const id = e.target.dataset.id;
+            db.collection('withdrawals').doc(id).update({status:'approved', approvedAt: Date.now()});
+          }
+          if(e.target.classList.contains('reject')) {
+            const id = e.target.dataset.id;
+            db.collection('withdrawals').doc(id).update({status:'rejected'});
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>
